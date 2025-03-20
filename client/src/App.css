@@ -1,0 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap');
+*{
+    font-family: Quicksand;
+}
+
+.login form {
+  width: 500px;
+  border: solid 0.01px rgba(0, 0, 0, 0.158);
+  padding: 40px;
+  border-radius: 10px;
+}
