@@ -1,12 +1,14 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom"; // Added useNavigate
 import NavBar from "../components/navbar";
 import Footer from "../components/footer";
 
 const ViewDealFarmer = () => {
   const { id } = useParams();
+  const navigate = useNavigate(); // Initialize navigate
   const [deal, setDeals] = useState({});
+
   useEffect(() => {
     const fetchDeals = async () => {
       try {
@@ -22,11 +24,34 @@ const ViewDealFarmer = () => {
 
         setDeals(response.data.deals);
       } catch (err) {
-        console.log(err);
+        console.error(err?.response?.data?.message || err.message);
       }
     };
     fetchDeals();
-  }, []);
+  }, [id]);
+
+  const handleAccept = async () => {
+    try {
+      const response = await axios.patch(
+        `http://127.0.0.1:8000/api/farmer/accept/${id}`,
+        {}, // Added empty object for patch data
+        {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("access_token"),
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.data) {
+        alert("Deal accepted");
+        navigate('/farmer');
+      }
+    } catch (err) {
+      alert("Accept request failed!!");
+      console.error(err?.response?.data?.message || err.message);
+    }
+  };
 
   return (
     <>
@@ -38,9 +63,7 @@ const ViewDealFarmer = () => {
           <div>
             <span className="badge bg-primary">{deal.category}</span>
           </div>
-
           <hr />
-
           <div className="">
             <div className="col-md-8">
               <h5 className="fw-bold">Description</h5>
@@ -87,9 +110,10 @@ const ViewDealFarmer = () => {
             </button>
             <button
               className="btn btn-outline-success mx-2"
-              onClick={() => alert("Contact Dealer feature coming soon!")}
+              disabled={deal.accepted}
+              onClick={handleAccept}
             >
-              🤝 Accept Deal
+              {deal.accepted ? "🤝 Deal Accepted!" : "🤝 Accept Deal"}
             </button>
 
             <button

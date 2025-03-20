@@ -9,6 +9,7 @@ import DealRequestForm from './pages/createRequest'
 import ViewDealFarmer from './pages/viewDealFarmer'
 import ViewDealDealer from './pages/viewDealerDeals'
 import AcceptedDeals from './pages/acceptedDeals'
+import FarmerView from './pages/farmersView'
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path='/farmer/deal/view/:id' element={<ProtectedRoute><ViewDealFarmer/></ProtectedRoute>}/>
           <Route path='/dealer/deal/view/:id' element={<ProtectedRoute><ViewDealDealer/></ProtectedRoute>}/>
           <Route path='/farmer/accepted' element={<ProtectedRoute><AcceptedDeals/></ProtectedRoute>}/>
+          <Route path='/farmer/people' element={<ProtectedRoute><FarmerView/></ProtectedRoute>}/>
         </Routes>
       </Router>
     </div>

@@ -112,7 +112,7 @@ const Signup = () => {
               onChange={handleChange}
             >
               <option value="farmer">Farmer</option>
-              <option value="supplier">Supplier</option>
+              <option value="dealer">Supplier</option>
             </select>
           </div>
           <div className="d-grid my-4">

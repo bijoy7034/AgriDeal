@@ -44,6 +44,7 @@ async def login_user(user: LoginUser):
 @router.post('/dealer/deals')
 async def create_deals(deal: Deals, request: Request):
     user = verify_access(request.headers.get("Authorization"))
+    print(user['role'] )
     if user['role'] != "dealer":
         raise HTTPException(status_code=403, detail='You are not authorized to perform this action')
 
@@ -100,10 +101,8 @@ async def get_deal_dealer(deal_id: str, request: Request):
         if not deal:
             raise HTTPException(status_code=404, detail="Deal not found")
 
-        # Ensure `_id` is converted to string
         deal[0]["_id"] = str(deal[0]["_id"])  
 
-        # Check if `user_accepted` has data before accessing `_id`
         if deal[0].get("user_accepted") and len(deal[0]["user_accepted"]) > 0:
             deal[0]["user_accepted"][0]["_id"] = str(deal[0]["user_accepted"][0]["_id"])
 
@@ -167,3 +166,17 @@ async def accept_deal(deal_id: str, request: Request):
         return {"message" : "Deal accepted successfully", "deal" : deal_id}
     except HTTPException as e:
         raise e
+
+@router.get('/farmer/users')
+async def get_farmers(request:  Request):
+    user = verify_access(request.headers.get("Authorization"))
+    if user['role'] != "farmer":
+        raise HTTPException(status_code=403, detail='You are not authorized to perform this action')
+    try:
+        users = await user_collection.find({"email": {"$ne": user['email']}, "role" : {"$ne" : "dealer"}}).to_list(length=None)
+        for u in users:
+            u["_id"] = str(u['_id'])
+        return users
+    except HTTPException as e:
+        raise e
+    

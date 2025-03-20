@@ -2,7 +2,7 @@ from motor.motor_asyncio import AsyncIOMotorClient
 from fastapi import HTTPException
 
 try:
-    client = AsyncIOMotorClient("mongodb://localhost:27017/")
+    client = AsyncIOMotorClient("mongodb+srv://bijoyanil74:6hAWOQwiuz74SpTh@cluster0.ld84s.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
 
     db = client.Agriculture
     user_collection = db.users

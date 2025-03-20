@@ -11,7 +11,7 @@ const NavBar = ({ isFarmer }) => {
       <nav className="navbar navbar-expand-lg bg-body-tertiary fixed-top">
         <div className="container">
           <Link className="navbar-brand text-success fw-bold" to="/farmer">
-            AgreDeals - Farmer Dashboard
+            Farmer Connect - Farmer Dashboard
           </Link>
           <button
             className="navbar-toggler"
@@ -40,6 +40,11 @@ const NavBar = ({ isFarmer }) => {
                   Accepted Deals
                 </Link>
               </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/farmer/people">
+                  Farmers
+                </Link>
+              </li>
               <li className="nav-item d-flex align-items-center">
                 <button
                   className="btn btn-danger btn-sm mx-3"
@@ -58,7 +63,7 @@ const NavBar = ({ isFarmer }) => {
     <nav className="navbar navbar-expand-lg bg-body-tertiary fixed-top">
       <div className="container">
         <Link className="navbar-brand text-success fw-bold" to="/dealer">
-          AgreDeals - Dealer Dashboard
+          Farmer Connect - Dealer Dashboard
         </Link>
         <button
           className="navbar-toggler"
