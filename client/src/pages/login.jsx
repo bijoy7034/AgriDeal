@@ -22,7 +22,11 @@ const Login = () => {
           console.log(response.data)
           if (response.data.user.role == 'farmer'){
             navigate('/farmer')
-          }else{
+          }
+          else if (response.data.user.role == "admin"){
+            navigate('/admin')
+          }
+          else{
             navigate('/dealer')
           }
         }

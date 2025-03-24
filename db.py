@@ -7,6 +7,7 @@ try:
     db = client.Agriculture
     user_collection = db.users
     deals_Collection = db.deals
+    complaint_collection = db.complaints
 
 except HTTPException as e:
     print(f"An error occurred: {e}")

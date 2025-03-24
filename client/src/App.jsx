@@ -10,6 +10,9 @@ import ViewDealFarmer from './pages/viewDealFarmer'
 import ViewDealDealer from './pages/viewDealerDeals'
 import AcceptedDeals from './pages/acceptedDeals'
 import FarmerView from './pages/farmersView'
+import AdminDashboard from './pages/admin_page'
+import ComplaintForm from './pages/complaintsFarmers'
+import AdminComplaints from './pages/adminCompliants'
 
 function App() {
   return (
@@ -26,6 +29,9 @@ function App() {
           <Route path='/dealer/deal/view/:id' element={<ProtectedRoute><ViewDealDealer/></ProtectedRoute>}/>
           <Route path='/farmer/accepted' element={<ProtectedRoute><AcceptedDeals/></ProtectedRoute>}/>
           <Route path='/farmer/people' element={<ProtectedRoute><FarmerView/></ProtectedRoute>}/>
+          <Route path='/admin' element={<ProtectedRoute><AdminDashboard/></ProtectedRoute>}/>
+          <Route path='/farmer/complaints' element={<ProtectedRoute><ComplaintForm/></ProtectedRoute>}/>
+          <Route path='/admin/complaints' element={<ProtectedRoute><AdminComplaints/></ProtectedRoute>}/>
         </Routes>
       </Router>
     </div>

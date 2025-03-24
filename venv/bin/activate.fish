@@ -33,7 +33,7 @@ end
 # Unset irrelevant variables.
 deactivate nondestructive
 
-set -gx VIRTUAL_ENV "/Users/bijoyanil/Documents/AgriDeal/AgriDeal/venv"
+set -gx VIRTUAL_ENV "/Users/bijoyanil/Desktop/abhunav/AgriDeal/AgriDeal/venv"
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/bin" $PATH

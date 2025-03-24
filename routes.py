@@ -1,7 +1,9 @@
+from typing import List
 from bson import ObjectId
 from fastapi import APIRouter, Request
+from pydantic import BaseModel
 from models import Deals, User, LoginUser
-from db import user_collection, deals_Collection
+from db import user_collection, deals_Collection, complaint_collection
 from fastapi import HTTPException
 from utils.security import hash_password, verify_password
 from utils.token import create_access, verify_access
@@ -180,3 +182,47 @@ async def get_farmers(request:  Request):
     except HTTPException as e:
         raise e
     
+@router.get("/all/users")
+async def get_all_users(request: Request):
+    user = verify_access(request.headers.get("Authorization"))
+    if user['role'] != "admin":
+        raise HTTPException(status_code=403, detail='You are not authorized to perform this action')
+    try:
+        users = await user_collection.find({"role" : {"$ne" : "admin"}}).to_list(length=None)
+        for u in users:
+            u["_id"] = str(u['_id'])
+        return users
+    except HTTPException as e:
+        raise e
+    
+
+class Complaint(BaseModel):
+    name: str
+    email: str
+    subject: str
+    description: str
+
+
+@router.post("/complaints")
+async def create_complaint(request:  Request, complaint: Complaint):
+    user = verify_access(request.headers.get("Authorization"))
+    if user['role'] != "farmer":
+        raise HTTPException(status_code=403, detail='You are not authorized to perform this action')
+    try:
+        complaint_data = complaint.dict()
+        complaint_data["user"] = user['email']
+        result = await complaint_collection.insert_one(complaint_data)
+        return {"message": "Complaint registered successfully", "complaint_id": str(result.inserted_id)}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@router.get("/complaints", response_model=List[Complaint])
+async def get_complaints(request:  Request):
+    user = verify_access(request.headers.get("Authorization"))
+    if user['role'] != "admin":
+        raise HTTPException(status_code=403, detail='You are not authorized to perform this action')
+    try:
+        complaints = await complaint_collection.find({}, {"_id": 0}).to_list()
+        return complaints
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
